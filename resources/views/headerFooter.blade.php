@@ -33,36 +33,13 @@
         <div class="main-menu d-none d-md-block">
             <nav>
                 <ul>
-                    <li><a href="#">Home <i class="fas fa-angle-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="#">Submenu item 1</a></li>
-                            <li><a href="#">Submenu item 1</a></li>
-                            <li><a href="#">Submenu item 1</a></li>
-                            <li><a href="#">Submenu item 1</a></li>
-                            <li><a href="#">Submenu item 1</a>
-                                <ul class="submenu">
-                                    <li><a href="#">Submenu item 1</a></li>
-                                    <li><a href="#">Submenu item 1</a></li>
-                                    <li><a href="#">Submenu item 1</a></li>
-                                    <li><a href="#">Submenu item 1</a></li>
-                                    <li><a href="#">Submenu item 1</a>
-                                        <ul class="submenu">
-                                            <li><a href="#">Submenu item 1</a></li>
-                                            <li><a href="#">Submenu item 1</a></li>
-                                            <li><a href="#">Submenu item 1</a></li>
-                                            <li><a href="#">Submenu item 1</a></li>
-                                            <li><a href="#">Submenu item 1</a> </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <li><a href="{{url('home')}}">Home</a>
                     </li>
-                    <li><a href="#">Feature <i class="fas fa-angle-down"></i></a></li>
+                    <li><a href="#">Feature </a></li>
                     <li><a href="#">Blogs</a>
                         <div class="mega-menu">
                             <ul>
-                                <li class="mega-title"><a href="#">Mega menu Tilte</a></li>
+                                <li class="mega-title"><a href="#">Drop</a></li>
                                 <li><a href="#">Mega menu Item</a></li>
                                 <li><a href="#">Mega menu Item</a></li>
                                 <li><a href="#">Mega menu Item</a></li>
@@ -83,6 +60,9 @@
                                 <li><a href="#">Mega menu Item</a></li>
                             </ul>
                         </div>
+                    </li>
+                    <li>
+                        <a href="{{ url('shope') }}">Shope</a>
                     </li>
                     <li class="position-static"><a href="#">About Us</a>
                         <div class="mega-menu mega-full">
@@ -172,68 +152,73 @@
     </div>
     <div class="col-xl-5 col-md-8 col-sm-12 mb-0  my-xl-5 text-center text-md-right position-relative">
         <div class="header-right">
-            <ul>
-                <li><a href="#">Login</a></li>
-                <li><a href="#"><i class="fas fa-heart"></i> (0)</a></li>
-                <li><a href="#">cart(3)</a>
-                      <div class="card-hover p-3">
-                            <table class="table table-dark table-hover table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th class="h-100">image</th>
-                                                <th>name</th>
-                                                <th>price</th>
-                                                <th>Action</th>
-                                            </tr>
+<ul>
+<li><a href="#">Login</a></li>
+<li><a href="#"><i class="fas fa-heart"></i> (0)</a></li>
+<li><a href="#">cart({{$CartGetQuantity}})</a>
+<div class="card-hover p-3">
+    <table class="table table-dark table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="h-100">image</th>
+                        <th>name</th>
+                        <th>price</th>
+                        <th>Action</th>
+                    </tr>
 
-                                        </thead>
-                                        <tbody>
+                </thead>
+                <tbody>
+    @foreach($CartGetContents as $CartGetContent)
+        <tr>
+            <td> <img style="width:100%;height:65px" src="/{{ $CartGetContent->attributes->product_image }}"  alt=""></td>
+            <td> <p>{{ $CartGetContent->name }}</p></td>
+            <td>${{$CartGetContent->price}}<br>
+           total: ${{$CartGetContent->quantity * $CartGetContent->price}}
+            </td>
+            <td  class="position-relative">
+                <a href="{{ route('cart_remove',['product_id' =>  $CartGetContent->id]) }}" class="d-inline position-absolute"  style="top:-23px;right:13px;"><i class="fas fa-trash-alt text-danger"></i></a>
+                <form  action="{{ route('cart_update',['product_id' =>  $CartGetContent->id]) }}" method="post" class="mt-4">
+                    @csrf
+                    <div class="form-group">
+                        <input class="w-100 form-control" type="Number" value="{{$CartGetContent->quantity}}" min="1" name="product_quantity">
+                        <input class="w-100" type="hidden" value="{{ $CartGetContent->id }}" name="product_id">
 
-
-                                        <tr>
-                                            <td> <img style="width:100%;height:65px" src=""  alt=""></td>
-                                            <td> <p>pant</p></td>
-                                            <td>$4545<br>
-                                           total: $ 564564
-                                            </td>
-                                            <td  class="position-relative">
-                                                <a  class="d-inline position-absolute" href="" style="top:-23px;right:13px;"><i class="fas fa-trash-alt text-danger"></i></a>
-                                                <form action="" method="post" class="mt-4">
-
-                                                    <div class="form-group">
-                                                        <input class="w-100 form-control" type="Number" value="" min="1" name="product_quantity">
-                                                        <input class="w-100" type="hidden" value="" name="product_id">
-
-                                                        <label for="my-input">
-                                                            <button type="submit" class="btn btn-outline-light mt-1">Update</button>
-                                                        </label>
-                                                    </div>
-
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                        <div class="total-price clearfix">
-                            <span class="float-left total-left">Total:</span>
-                            <span class="float-right total-right">$ 45454</span>
-
-                        </div>
-                        <a href="" class="check-out-botton">Check out</a>
-
+                        <label for="my-input">
+                            <button type="submit" class="btn btn-outline-light mt-1">Update</button>
+                        </label>
                     </div>
-                    
-                </li>
-                <li><a href="#"><i class="fas fa-search"></i></a>
-                    <div class="search-box">
-                        <form action="#">
-                            <input type="text" placeholder="Search">
-                            <button><i class="fas fa-search"></i></button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
+
+                </form>
+            </td>
+        </tr>
+    @endforeach
+
+
+            </tbody>
+
+        </table>
+<div class="total-price clearfix">
+    <span class="float-left total-left">Total:</span>
+    <span class="float-right total-right">$ {{ $CartGetTotal }}</span>
+    @php
+    Session::put(['CartGetTotal'=>$CartGetTotal])
+    @endphp
+
+</div>
+<a href="{{ route('cheek_out') }}" class="check-out-botton">Check out</a>
+
+</div>
+
+</li>
+<li><a href="#"><i class="fas fa-search"></i></a>
+<div class="search-box">
+<form action="#">
+    <input type="text" placeholder="Search">
+    <button><i class="fas fa-search"></i></button>
+</form>
+</div>
+</li>
+</ul>
         </div>
     </div>
 </div>

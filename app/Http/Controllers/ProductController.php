@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 class ProductController extends Controller
 {
      /**
@@ -47,7 +48,11 @@ class ProductController extends Controller
     	$data['expier_date']=$request->expier_date;
     	$data['buying_price']=$request->buying_price;
     	$data['selling_price']=$request->selling_price;
+        $data['publication_status']=$request->publication_status;
     	$data['details']=$request->details;
+        $data['created_at']=Carbon::now();
+
+
     	$image=$request->file('image');
     	if ($image) {
     		$image_name=hexdec(uniqid());
@@ -58,7 +63,7 @@ class ProductController extends Controller
             $success=$image->move($upload_path,$image_full_name);
             $data['image']=$image_url;
             DB::table('products')->insert($data);
-             return Redirect()->back();
+             return Redirect()->route('all.product');
     	}else{
     		 DB::table('products')->insert($data);
              return Redirect()->back();
@@ -148,6 +153,10 @@ class ProductController extends Controller
              return Redirect()->route('all.product');
     	}
     }
+
+
+
+    
 
 
 }

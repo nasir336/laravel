@@ -49,6 +49,17 @@
                <label for="email">Product Code</label>
                  <input type="text" class="form-control" id="email" name="product_code" placeholder="Product Code" required>
              </div>
+             <div class="control-group">
+           <div class="form-group floating-label-form-group controls">
+             <label>Publish Status</label>
+            <select class="form-control" name="publication_status">
+          
+              <option value="0">0</option>
+              <option value="1">1</option>
+            
+            </select>
+           </div>
+         </div>
              <div class="form-group">
                <label for="exampleInputPassword1">Buying Date</label>
                  <input type="Date" class="form-control" id="exampleInputPassword1" placeholder="Buying Date" name="bye_date" required>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\product;
 use App\category;
-use App\post;
 
 class HomeController extends Controller
 {
@@ -26,15 +25,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //  $product=DB::table('products')->get();
-        // return view('home',compact('product'));
+        
+         $product =  Product::all()->take(10);
 
-        $product =  Product::all()->take(10);
-        $post =  post::all();
+         $all_products =  Product::where('publication_status',1)->get();
+      
    
         $category = category::all();
-        return view('home',["product"=>$product],["post"=>$post],["category"=>$category]);
+
+        return view('home',["product"=>$product,'all_products'=>$all_products,'category'=>$category]);
 
 
     }
+    //product details here---
+    public function product_details($product_id)
+    {
+        $product = product::find($product_id);
+
+        $related_product = product::where('cat_id',$product->cat_id)->where('id','!=',$product->id)->get();
+        //i dont show details main image than i code this
+         //related product
+
+        return view('product_details',['product'=>$product,'related_product'=>$related_product]);
+    }
+
+    
 }

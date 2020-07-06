@@ -83,3 +83,41 @@ Route::get('delete/product/{id}','ProductController@DeleteProduct');
 Route::get('edit/product/{id}','ProductController@Editproduct');
 
 Route::post('update/product/{id}','ProductController@UpdateProduct');
+
+
+//product_details route here--------
+Route::get('/product_details/{id}','HomeController@product_details')->name('product_details');
+
+//cart details here---
+
+Route::post('/add/cart','CartController@add_cart')->name('add.cart');
+
+Route::get('/remove/cart/{id}','CartController@remove')->name('cart_remove');
+
+Route::post('/update/cart/{id}','CartController@update')->name('cart_update');
+
+
+//shope details route here-----
+Route::get('/shope/','ShopeController@shope')->name('shope');
+
+
+//route for cheek out====
+Route::get('/cheek_out','CheekOutController@cheek_out')->name('cheek_out');
+
+Route::post('/sign_up','CheekOutController@sign_up')->name('sign_up');
+
+//shipping route here------
+Route::get('/shipping','ShippingController@shipping');
+
+Route::post('store/shipping','ShippingController@Storeshipping')->name('store.shipping');
+
+//payment_form route here----
+Route::get('payment_form','CheekOutController@payment_form')->name('payment_form');
+
+Route::post('checkOut_payment','CheekOutController@checkOut_payment')->name('order_save');
+
+
+
+//order route here-----
+
+Route::get('/order','OrderController@order')->name('order');
